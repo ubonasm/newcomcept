@@ -81,6 +81,29 @@ class WebConceptScraper:
 
         return list(set(concepts))[:max_concepts]
 
+
+    def search_kotobank(self, word: str, max_concepts: int = 8) -> List[str]:
+        """コトバンクから関連概念を取得"""
+        concepts = []
+        try:
+            url = f"https://kotobank.jp/search?q={quote(word)}"
+            response = self.session.get(url, timeout=5)
+
+            if response.status_code == 200:
+                soup = BeautifulSoup(response.content, 'html.parser')
+
+                # 意味や説明文から概念を抽出
+                content_divs = soup.find_all('div', class_=['kiji', 'NetDicBody'])
+                for div in content_divs[:2]:
+                    text = div.get_text()
+                    concepts.extend(self._extract_concepts_from_text(text, max_concepts // 2))
+
+        except Exception as e:
+            st.warning(f"Weblio検索エラー: {str(e)}")
+
+        return list(set(concepts))[:max_concepts]
+
+    
     def search_google_related(self, word: str, max_concepts: int = 8) -> List[str]:
         """Google検索の関連キーワードを取得（シミュレーション）"""
         # 実際のGoogle検索APIは有料のため、シミュレーションデータを使用
