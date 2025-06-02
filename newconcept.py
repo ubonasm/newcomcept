@@ -191,8 +191,8 @@ class ConceptVisualizer:
                 <text x="{center_x}" y="{center_y + 5}" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">{center_word}</text>
         '''
 
-        colors = ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEAA7", "#DDA0DD", "#98D8C8", "#F7DC6F"]
-        source_colors = {"Wikipedia": "#FF6B6B", "Weblio": "#4ECDC4", "コトバンク": "#00CCCC", "関連検索": "#45B7D1"}
+        colors = ["#FF6B6B", "#4ECDC4", "#FFCCFF", "#45B7D1", "#96CEB4", "#FFEAA7", "#DDA0DD", "#98D8C8", "#F7DC6F"]
+        source_colors = {"Wikipedia": "#FF6B6B", "Weblio": "#4ECDC4", "コトバンク": "#FFCCFF", "関連検索": "#45B7D1"}
 
         radius_offset = 0
         for source, concept_list in concepts.items():
