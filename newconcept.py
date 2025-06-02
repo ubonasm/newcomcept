@@ -100,9 +100,9 @@ class WebConceptScraper:
                 concepts.extend(values)
 
         # ランダムに追加の概念を生成
-        if len(concepts) < max_concepts:
-            additional = ["創造", "発想", "アイデア", "革新", "変化", "成長", "発展", "進歩"]
-            concepts.extend(random.sample(additional, min(max_concepts - len(concepts), len(additional))))
+        # if len(concepts) < max_concepts:
+        #     additional = ["創造", "発想", "アイデア", "革新", "変化", "成長", "発展", "進歩"]
+        #     concepts.extend(random.sample(additional, min(max_concepts - len(concepts), len(additional))))
 
         return concepts[:max_concepts]
 
