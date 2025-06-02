@@ -99,7 +99,7 @@ class WebConceptScraper:
                     concepts.extend(self._extract_concepts_from_text(text, max_concepts // 2))
 
         except Exception as e:
-            st.warning(f"Weblio検索エラー: {str(e)}")
+            st.warning(f"コトバンク検索エラー: {str(e)}")
 
         return list(set(concepts))[:max_concepts]
 
@@ -192,7 +192,7 @@ class ConceptVisualizer:
         '''
 
         colors = ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEAA7", "#DDA0DD", "#98D8C8", "#F7DC6F"]
-        source_colors = {"Wikipedia": "#FF6B6B", "Weblio": "#4ECDC4", "関連検索": "#45B7D1"}
+        source_colors = {"Wikipedia": "#FF6B6B", "Weblio": "#4ECDC4", "コトバンク": "#00CCCC", "関連検索": "#45B7D1"}
 
         radius_offset = 0
         for source, concept_list in concepts.items():
@@ -248,6 +248,7 @@ def search_concepts_parallel(scraper: WebConceptScraper, word: str) -> Dict[str,
         future_to_source = {
             executor.submit(scraper.search_wikipedia, word): "Wikipedia",
             executor.submit(scraper.search_weblio, word): "Weblio",
+            executor.submit(scraper.search_kotobank, word): "コトバンク",
             executor.submit(scraper.search_google_related, word): "関連検索"
         }
 
@@ -301,8 +302,8 @@ def main():
 
         search_sources = st.multiselect(
             "検索ソース",
-            ["Wikipedia", "Weblio", "関連検索"],
-            default=["Wikipedia", "Weblio", "関連検索"]
+            ["Wikipedia", "Weblio", "コトバンク", "関連検索"],
+            default=["Wikipedia", "Weblio", "コトバンク", "関連検索"]
         )
 
         max_concepts_per_source = st.slider("ソースあたりの最大概念数", 3, 15, 8)
@@ -444,7 +445,7 @@ def main():
             st.subheader("🌟 アプリの特徴")
             st.markdown("""
             - **リアルタイム検索**: Webから最新の関連概念を取得
-            - **複数ソース**: Wikipedia、Weblio、関連検索から情報収集
+            - **複数ソース**: Wikipedia、Weblio、コトバンク、関連検索から情報収集
             - **視覚的表現**: 美しい概念マップで関連性を表示
             - **インタラクティブ**: 概念をクリックして連想を広げる
             - **辞書構築**: 検索した概念を自動的に辞書に蓄積
